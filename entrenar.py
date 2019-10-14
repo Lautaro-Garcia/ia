@@ -2,7 +2,7 @@ from tensorflow import keras
 
 from cargar_datos import cargar_datos
 
-acordes_entrenamiento, nombres_acordes_entrenamiento = cargar_datos('notas.csv')
+acordes_entrenamiento, nombres_acordes_entrenamiento = cargar_datos('train.csv')
 
 model = keras.Sequential([
     keras.layers.Dense(12, input_shape=(12,)),

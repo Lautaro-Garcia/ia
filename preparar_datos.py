@@ -5,20 +5,7 @@ import numpy as np
 
 NOTAS = ['a', 'am', 'bm', 'c', 'd', 'dm', 'e', 'em', 'f', 'g']
 
-frecuencias_de_referencia = [
-    130.80,
-    138.59,
-    146.83,
-    155.56,
-    164.81,
-    174.61,
-    185.00,
-    196.00,
-    207.65,
-    220.00,
-    233.08,
-    246.94,
-]
+FRECUENCIA_DE_REFERENCIA = 130.8
 
 
 def delta(x, y):
@@ -27,7 +14,7 @@ def delta(x, y):
 
 def procesar_audio(path_del_audio):
     muestras, frecuencia_muestreo = sf.read(path_del_audio)
-    transformadas = np.fft.rfft(muestras[:16386])
+    transformadas = np.fft.rfft(muestras, 16386)
     cantidad_bins = len(transformadas)
 
     def pcp(clase_de_nota):
@@ -35,7 +22,7 @@ def procesar_audio(path_del_audio):
             if indice is 0:
                 return -1
             return np.mod(np.round(12 * np.log2(
-                frecuencia_muestreo * indice / (cantidad_bins * frecuencias_de_referencia[clase_de_nota]))), 12)
+                frecuencia_muestreo * indice / (cantidad_bins * FRECUENCIA_DE_REFERENCIA))), 12)
 
         def pcp_interno(indice):
             return (np.linalg.norm(transformadas[indice]) ** 2) * delta(m(indice), clase_de_nota)
@@ -63,6 +50,5 @@ def guardar_pcp(path_samples, nombre_archivo_salida):
             print("Escribiendo ", vector_pcp)
             writer.writerow(vector_pcp)
 
-procesar_audio('train_samples/Guitar_Only/a/a61.wav')
-# guardar_pcp('train_samples', 'notas.csv')
-# guardar_pcp('test_samples', 'evaluacion.csv')
+guardar_pcp('train_samples', 'train.csv')
+guardar_pcp('test_samples', 'test.csv')
