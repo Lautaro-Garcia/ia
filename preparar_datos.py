@@ -1,3 +1,4 @@
+#!bin/python3.7
 import csv
 import glob
 import soundfile as sf
@@ -51,4 +52,5 @@ def guardar_pcp(path_samples, nombre_archivo_salida):
             writer.writerow(vector_pcp)
 
 guardar_pcp('train_samples', 'train.csv')
-guardar_pcp('test_samples', 'test.csv')
+guardar_pcp('test_samples/Other_Instruments', 'test (Other instruments).csv')
+guardar_pcp('test_samples/Guitar_Only', 'test (Guitar only).csv')

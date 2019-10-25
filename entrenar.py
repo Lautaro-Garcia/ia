@@ -1,3 +1,4 @@
+#!bin/python3.7
 from tensorflow import keras
 
 from cargar_datos import cargar_datos
